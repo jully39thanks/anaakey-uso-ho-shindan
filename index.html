@@ -10,7 +10,7 @@
             --bg-color: #4a0404; /* 深みのあるワインレッド */
             --accent-color: #ffd700; /* ゴールド */
             --text-color: #ffffff; /* 白文字 */
-            --card-bg: rgba(0, 0, 0, 0.4); /* 半透明の黒 */
+            --card-bg: rgba(0, 0, 0, 0.4); /* 黒 */
         }
 
         body {
@@ -25,7 +25,7 @@
             min-height: 100vh;
         }
 
-        /* 期間限定バッジのデザイン */
+        /* 新サービス的なデザイン */
         .limited-badge {
             background-color: var(--accent-color);
             color: #000;
@@ -70,7 +70,7 @@
             border: 1px solid #7a0606;
             border-radius: 5px;
             font-family: inherit;
-            box-sizing: border-box; /* 枠線がはみ出さないように設定 */
+            box-sizing: border-box; /* 枠線がはみ出さない*/
         }
 
         button {
@@ -243,11 +243,11 @@
             document.getElementById('resHO').innerText = h;
             document.getElementById('resMission').innerText = m;
 
-            // 表示の切り替え（入力フォームを消して結果を表示）
+            // 表示の切り替え
             document.getElementById('input-area').style.display = 'none';
             document.getElementById('result').style.display = 'block';
 
-            // 画面を一番上へスムーズにスクロール
+            // 画面をスクロール
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
