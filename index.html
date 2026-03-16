@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1日限定：アナアキー製マダミスHO生成器</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Mincho&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #4a0404; /* 深みのあるワインレッド */
+            --accent-color: #ffd700; /* ゴールド */
+            --text-color: #ffffff; /* 白文字 */
+            --card-bg: rgba(0, 0, 0, 0.4); /* 半透明の黒 */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Sawarabi Mincho', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* 期間限定バッジのデザイン */
+        .limited-badge {
+            background-color: var(--accent-color);
+            color: #000;
+            padding: 8px 20px;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        h1 { 
+            border-bottom: 2px solid var(--accent-color); 
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .question { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--accent-color); }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background: #2a0202;
+            color: white;
+            border: 1px solid #7a0606;
+            border-radius: 5px;
+            font-family: inherit;
+            box-sizing: border-box; /* 枠線がはみ出さないように設定 */
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #800000;
+            color: white;
+            border: 2px solid var(--accent-color);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+            margin-top: 10px;
+        }
+
+        button:hover { 
+            background-color: var(--accent-color); 
+            color: #000; 
+        }
+
+        /* 結果表示エリア */
+        #result {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px double var(--accent-color);
+            background: rgba(0,0,0,0.6);
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .result-item { margin-bottom: 20px; border-bottom: 1px dotted #555; padding-bottom: 10px; }
+        .label-small { font-size: 0.75rem; color: var(--accent-color); margin-bottom: 5px; }
+        .result-text { font-size: 1.1rem; line-height: 1.4; }
+
+        .footer-note {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="limited-badge">【本日限定】ハンドアウト生成サービス</div>
+    <h1>穴を埋める鍵を探すあなただけのハンドアウト</h1>
+
+    <div class="container">
+        <div id="input-area">
+            <div class="question">
+                <label>あなたの名前</label>
+                <input type="text" id="userName" placeholder="名無しの共犯者" maxlength="15">
+            </div>
+
+            <div class="question">
+                <label>Q1. 今日、一番最初に見かけた「赤色」のものは？</label>
+                <select id="q1">
+                    <option value="0">信号機の光</option>
+                    <option value="1">誰かの服</option>
+                    <option value="2">熟れすぎた果実</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <label>Q2. 鏡の中の自分と、目が合った瞬間に思ったことは？</label>
+                <select id="q2">
+                    <option value="0">「お前は誰だ？」</option>
+                    <option value="1">「今日も変わりない」</option>
+                    <option value="2">「少し疲れているな」</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <label>Q3. 古い洋館の扉。鍵がかかっていないとしたら？</label>
+                <select id="q3">
+                    <option value="0">静かに開ける</option>
+                    <option value="1">通り過ぎる</option>
+                    <option value="2">誰かを呼ぶ</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <label>Q4. 拾った手紙に「忘れて」とだけ書いてあったら？</label>
+                <select id="q4">
+                    <option value="0">すぐさま破り捨てる</option>
+                    <option value="1">大切に保管する</option>
+                    <option value="2">差出人を想像する</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <label>Q5. 嘘をつくとき、あなたはどこを見る？</label>
+                <select id="q5">
+                    <option value="0">相手の目</option>
+                    <option value="1">自分の爪先</option>
+                    <option value="2">斜め上の虚空</option>
+                </select>
+            </div>
+
+            <button id="generateBtn" onclick="generateHO()">配役を受け取る</button>
+        </div>
+
+        <div id="result">
+            <div class="result-item">
+                <div class="label-small">参加予定のシナリオ</div>
+                <div id="resScenario" class="result-text" style="font-weight: bold; color: var(--accent-color);"></div>
+            </div>
+            <div class="result-item">
+                <div class="label-small">キャラクター名 / 性別</div>
+                <div id="resChar" class="result-text"></div>
+            </div>
+            <div class="result-item">
+                <div class="label-small">あなたの役割</div>
+                <div id="resHO" class="result-text" style="font-size: 1.2rem;"></div>
+            </div>
+            <div class="result-item">
+                <div class="label-small">目標</div>
+                <div id="resMission" class="result-text"></div>
+            </div>
+            
+            <button id="resetBtn" onclick="resetPage()" style="background-color: #333; border-color: #666;">TOP画面に戻る</button>
+        </div>
+    </div>
+
+    <div class="footer-note">※このシナリオ名およびハンドアウトはすべて虚構です。</div>
+
+    <script>
+        // データリスト
+        const scenarios = [
+            "『硝子の箱庭で、君は毒林檎を笑う』",
+            "『午前4時の水槽には、君の靴が浮いている』",
+            "『遺言執行人は、三度鐘を鳴らす』",
+            "『誰も知らない、僕らの共犯関係』",
+            "『錆びた鍵と、嘘つきたちの晩餐会』",
+            "『虚構の空、あるいは密室の鳥籠』",
+            "『名無しの死体が、愛を語るまで』"
+        ];
+
+        const charNames = ["浅葱 蓮", "九条 院", "深山 霧子", "志賀 朔夜", "七瀬 遥", "氷室 玲", "如月 奏"];
+        const genders = ["男性", "女性", "不詳", "中性"];
+        const hoTitles = ["【HO：調律師】", "【HO：被害者の愛弟子】", "【HO：異邦人】", "【HO：名無しの探偵】", "【HO：共犯者の影】", "【HO：共想の化身】"];
+        const missions = [
+            "12時の鐘が鳴る前に、自分の影を切り離すこと。",
+            "師匠の遺産を、誰にも渡さず独占すること。",
+            "この中に混じっている『人間ではないもの』を特定する。",
+            "全員のアリバイを崩し、あえて『犯人なし』の結論を導くこと。",
+            "事件を解決してはならない。真犯人を守り抜き、心中すること。",
+            "死体のポケットにある『赤い鍵』を、誰にもバレずに飲み込むこと。"
+        ];
+
+        function generateHO() {
+            // 入力された名前を取得
+            const nameInput = document.getElementById('userName').value;
+            const name = nameInput || "名無しの共犯者";
+            
+            // ランダムに各要素を1つずつ選ぶ
+            const s = scenarios[Math.floor(Math.random() * scenarios.length)];
+            const c = charNames[Math.floor(Math.random() * charNames.length)];
+            const g = genders[Math.floor(Math.random() * genders.length)];
+            const h = hoTitles[Math.floor(Math.random() * hoTitles.length)];
+            const m = missions[Math.floor(Math.random() * missions.length)];
+
+            // 結果を画面に書き込む
+            document.getElementById('resScenario').innerText = s;
+            document.getElementById('resChar').innerText = `${c} (${name}) / ${g}`;
+            document.getElementById('resHO').innerText = h;
+            document.getElementById('resMission').innerText = m;
+
+            // 表示の切り替え（入力フォームを消して結果を表示）
+            document.getElementById('input-area').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+
+            // 画面を一番上へスムーズにスクロール
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetPage() {
+            // ページを再読み込みして最初に戻す
+            location.reload();
+        }
+    </script>
+</body>
+</html>
